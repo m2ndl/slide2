@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Languages: Structural Consequences of Social Factors</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #2c3e50;
+            color: #333;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        .presentation {
+            width: 100%;
+            height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slide {
+            width: 95%;
+            max-width: 1400px;
+            height: 90vh;
+            background: white;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            display: none;
+            padding: 40px 50px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide.active {
+            display: block !important;
+        }
+
+        /* Slide 1 - Title */
+        #slide1 {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        #slide1.active {
+            display: flex !important;
+        }
+
+        #slide1 h1 {
+            font-size: 42px;
+            margin-bottom: 20px;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        #slide1 .subtitle {
+            font-size: 26px;
+            margin-bottom: 15px;
+            opacity: 0.95;
+        }
+
+        #slide1 .source {
+            font-size: 18px;
+            margin-bottom: 35px;
+            opacity: 0.9;
+            font-style: italic;
+        }
+
+        #slide1 .metadata {
+            font-size: 16px;
+            opacity: 0.85;
+            line-height: 1.8;
+        }
+
+        /* Regular slides */
+        h2 {
+            color: #2c3e50;
+            font-size: 30px;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 8px;
+        }
+
+        h3 {
+            color: #34495e;
+            font-size: 20px;
+            margin-top: 15px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        p, li {
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+
+        ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        li {
+            margin-bottom: 6px;
+        }
+
+        .highlight-box {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 12px;
+            margin: 15px 0;
+        }
+
+        .highlight-box ul {
+            margin-bottom: 0;
+        }
+
+        .definition-box {
+            background: #e8f4f8;
+            border: 2px solid #3498db;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            font-style: italic;
+        }
+
+        .key-point {
+            background: #fff9e6;
+            border-left: 4px solid #f39c12;
+            padding: 12px;
+            margin: 15px 0;
+            font-weight: 500;
+        }
+
+        /* Navigation */
+        .navigation {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .nav-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            background: #5a67d8;
+            transform: translateY(-2px);
+        }
+
+        .nav-btn:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+            transform: none;
+            opacity: 0.5;
+        }
+
+        .slide-indicator {
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+            font-weight: bold;
+            color: #2c3e50;
+            font-size: 14px;
+        }
+
+        .slide-number {
+            position: absolute;
+            bottom: 15px;
+            right: 25px;
+            color: #7f8c8d;
+            font-size: 12px;
+        }
+
+        /* Spectrum visualization - more compact */
+        .spectrum {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(90deg, #e8f5e9, #c5e1a5, #aed581, #9ccc65);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            position: relative;
+        }
+
+        .spectrum-item {
+            text-align: center;
+            flex: 1;
+            font-weight: 600;
+            color: #2e7d32;
+            font-size: 14px;
+        }
+
+        .spectrum-item small {
+            display: block;
+            font-size: 12px;
+            font-weight: normal;
+            margin-top: 3px;
+        }
+
+        /* Timeline for Kiswahili - more compact */
+        .progression {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 20px 0;
+            position: relative;
+            padding: 15px 0;
+        }
+
+        .progression::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #667eea;
+            z-index: 0;
+        }
+
+        .progression-item {
+            background: white;
+            border: 2px solid #667eea;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            z-index: 1;
+            position: relative;
+            font-size: 14px;
+        }
+
+        .arrow {
+            color: #667eea;
+            font-size: 20px;
+            z-index: 1;
+            position: relative;
+            background: white;
+            padding: 0 5px;
+        }
+
+        /* Table for comparison - more compact */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+
+        .comparison-table th {
+            background: #667eea;
+            color: white;
+            padding: 10px;
+            text-align: left;
+            font-size: 16px;
+        }
+
+        .comparison-table td {
+            padding: 8px 10px;
+            border-bottom: 1px solid #ecf0f1;
+            font-size: 15px;
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        /* Ensure content fits */
+        .slide-content {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation">
+        <!-- Slide 1: Title Slide -->
+        <div id="slide1" class="slide active">
+            <h1>Contact Languages: Structural Consequences of Social Factors</h1>
+            <div class="subtitle">Chapter 5 Presentation</div>
+            <div class="source">An Introduction to Sociolinguistics (Wardhaugh & Fuller, 2015)</div>
+            <div class="metadata">
+                [Your name]<br>
+                [Course info]<br>
+                [Date]
+            </div>
+            <div class="slide-number">1 / 5</div>
+        </div>
+
+        <!-- Slide 2: Overview -->
+        <div id="slide2" class="slide">
+            <h2>Overview - The Contact Language Spectrum</h2>
+            
+            <h3>Languages emerge from contact situations</h3>
+            
+            <p><strong>Spectrum of contact phenomena:</strong></p>
+            
+            <div class="spectrum">
+                <div class="spectrum-item">Lingua francas<small>Common language for communication</small></div>
+                <div class="spectrum-item">Pidgins<small>Simplified contact variety</small></div>
+                <div class="spectrum-item">Creoles<small>Full language developed from pidgin</small></div>
+                <div class="spectrum-item">Mixed languages<small>Bilingual identity markers</small></div>
+            </div>
+            
+            <div class="key-point">
+                <strong>Central question:</strong> How do social factors shape linguistic structures?
+            </div>
+            
+            <div class="slide-number">2 / 5</div>
+        </div>
+
+        <!-- Slide 3: Historical Context -->
+        <div id="slide3" class="slide">
+            <h2>Historical Context & Significance</h2>
+            
+            <h3>Why these languages matter</h3>
+            
+            <div class="highlight-box">
+                <ul>
+                    <li>Historically marginalized as "broken" or "corrupt"</li>
+                    <li>Described by what they "lacked" rather than possessed</li>
+                    <li>Speakers often treated with contempt</li>
+                </ul>
+            </div>
+            
+            <h3>Reality check:</h3>
+            
+            <table class="comparison-table">
+                <tr>
+                    <th>Misconception</th>
+                    <th>Reality</th>
+                </tr>
+                <tr>
+                    <td>Contact languages are exceptional</td>
+                    <td>Most languages show contact influence</td>
+                </tr>
+                <tr>
+                    <td>Contact is unusual</td>
+                    <td>Contact is the norm, not the exception</td>
+                </tr>
+                <tr>
+                    <td>These are "lesser" languages</td>
+                    <td>These languages reveal how ALL languages change</td>
+                </tr>
+            </table>
+            
+            <div class="slide-number">3 / 5</div>
+        </div>
+
+        <!-- Slide 4: Lingua Francas -->
+        <div id="slide4" class="slide">
+            <h2>Lingua Francas - The Starting Point</h2>
+            
+            <div class="definition-box">
+                <strong>Definition (UNESCO 1953)</strong><br>
+                "A language used habitually by people whose mother tongues are different in order to facilitate communication between them"
+            </div>
+            
+            <h3>Key characteristics:</h3>
+            <ul>
+                <li>Wide variation in speaker ability</li>
+                <li>Can be native, second, or foreign language</li>
+                <li>Examples: English, Arabic, Mandarin, Swahili</li>
+            </ul>
+            
+            <div class="key-point">
+                <strong>Critical question:</strong> What happens when people need to communicate but have limited access to the lingua franca?
+            </div>
+            
+            <div class="slide-number">4 / 5</div>
+        </div>
+
+        <!-- Slide 5: Kiswahili Example -->
+        <div id="slide5" class="slide">
+            <h2>Kiswahili - A Lingua Franca Example</h2>
+            
+            <h3>From coast to continent</h3>
+            
+            <div class="highlight-box">
+                <p><strong>Native language:</strong> Coastal Kenya and Tanzania</p>
+                <p style="margin-bottom: 0;">North to Somalia, south to Mozambique</p>
+            </div>
+            
+            <h3>Spread as lingua franca:</h3>
+            <ul>
+                <li>Inland expansion through trade</li>
+                <li>Now used in education: Tanzania, Kenya, Uganda, Rwanda, Burundi</li>
+                <li>Political and public discourse throughout Great Lakes region</li>
+            </ul>
+            
+            <h3>Shows progression:</h3>
+            <div class="progression">
+                <div class="progression-item">trade</div>
+                <span class="arrow">→</span>
+                <div class="progression-item">administration</div>
+                <span class="arrow">→</span>
+                <div class="progression-item">education</div>
+                <span class="arrow">→</span>
+                <div class="progression-item">national identity</div>
+            </div>
+            
+            <div class="slide-number">5 / 5</div>
+        </div>
+    </div>
+
+    <div class="navigation">
+        <button class="nav-btn" onclick="previousSlide()" id="prevBtn">Previous</button>
+        <span class="slide-indicator" id="slideIndicator">1 / 5</span>
+        <button class="nav-btn" onclick="nextSlide()" id="nextBtn">Next</button>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 5;
+
+        function showSlide(n) {
+            // Ensure slide number is within bounds
+            if (n > totalSlides) {
+                currentSlide = totalSlides;
+            } else if (n < 1) {
+                currentSlide = 1;
+            } else {
+                currentSlide = n;
+            }
+            
+            // Hide all slides
+            for (let i = 1; i <= totalSlides; i++) {
+                document.getElementById(`slide${i}`).classList.remove('active');
+            }
+            
+            // Show current slide
+            document.getElementById(`slide${currentSlide}`).classList.add('active');
+            
+            // Update navigation
+            document.getElementById('prevBtn').disabled = currentSlide === 1;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides;
+            document.getElementById('slideIndicator').textContent = `${currentSlide} / ${totalSlides}`;
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides) {
+                showSlide(currentSlide + 1);
+            }
+        }
+
+        function previousSlide() {
+            if (currentSlide > 1) {
+                showSlide(currentSlide - 1);
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowLeft') {
+                previousSlide();
+            } else if (event.key === 'ArrowRight') {
+                nextSlide();
+            } else if (event.key >= '1' && event.key <= '5') {
+                showSlide(parseInt(event.key));
+            }
+        });
+
+        // Initialize first slide
+        showSlide(1);
+    </script>
+</body>
+</html>
